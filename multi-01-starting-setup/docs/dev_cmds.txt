@@ -1,0 +1,19 @@
+docker run -d --rm \
+    --name mongodb \
+    --network goals_net \
+    -v mongodata:/data/db \
+    mongo
+
+docker run -d --rm \
+--name goal-server -p 80:80 \
+-v /home/danush/dev/docker-containers/multi-01-starting-setup/backend:/app/ \
+-v /app/node_modules \
+--env-file /home/danush/dev/docker-containers/multi-01-starting-setup/backend/.env \
+--network goals_net \
+goal-backend
+
+docker run -it --rm \
+    -p 3000:3000 \
+    -v /home/danush/dev/docker-containers/multi-01-starting-setup/frontend/src:/app/src \
+    --name goal-ui \
+    goal-frontend
